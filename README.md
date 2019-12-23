@@ -10,10 +10,6 @@
 8. 针对于PCC>0.8以及PCC>0.9部分所占比例进行统计。（考虑0值和不考虑0值两种情况，分别由filterMEDpersim.py和filterMEDpersimOnlymatch.py完成）
 9. 针对预测的峰值强度top6、8、11、15的PCC进行统计。（由ComputeTopKpeaks.py完成）
 
---------
-<br>
 ## 评估流程外代码：
 1. SpellMS2PIPresult.py ：由于MS2PIP的Web server一次最多预测10万条肽段，通过该文件将一个数据集的所有肽段结果整合到一个文件。
 2. DealDataforPlot.py ：针对绘图所需，通过该文件获取所需的B离子、Y离子、BY离子的各项信息。
-
---------
