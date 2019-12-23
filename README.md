@@ -1,15 +1,15 @@
-## 评估流程及对应文件：
+## Evaluation process and corresponding documents
 
-1. 将pFind3和Maxquant结果取交集，作为评估的数据。（由GetSamePeptideInfo.py完成）
-2. 结合mgf文件以及pFind3和Maxquant鉴定交集，将鉴定的肽段序列和mgf中质谱谱图对应在一起，便于获取对应的mz-intensity键值对，作为评估的ground truth。（由buildTargetMGF.py完成）
-3. 将第一步中的交集结果分别处理转换为各工具对应输入格式的文件。（由toXXXInput.py完成，其中pDeep2和Guan's work不需要转换）
-4. 各工具分别对数据进行强度预测：pDeep2、Guan‘s work在本地GPU环境运行；Prosit、MS2PIP在其对应的Web server上运行。
-5. 各工具预测后，将输出格式统一整理为msp文件。（由XXX2msp.py文件完成，其中Prosit不需要转换，Guan’s work结果输出部分由我们自己完成直接输出为msp文件）
-6. 对各工具的预测结果分别和ground truth数据对比，并将肽段序列、肽段长度、电荷值、PCC、强度值等信息写到文件。（考虑0值和不考虑0值两种情况，分别由perSim.py和perSimOnlymatch.py完成）
-7. 对各工具和ground truth数据对比后的结果分析，统计B离子、Y离子、BY离子的Median PCC。（考虑0值和不考虑0值两种情况，分别由ComputeMEDpersim.py和ComputeMEDpersimOnlymatch.py完成）
-8. 针对于PCC>0.8以及PCC>0.9部分所占比例进行统计。（考虑0值和不考虑0值两种情况，分别由filterMEDpersim.py和filterMEDpersimOnlymatch.py完成）
-9. 针对预测的峰值强度top6、8、11、15的PCC进行统计。（由ComputeTopKpeaks.py完成）
+1. Take the intersection of the pFind3 and Maxquant results as the data for the evaluation. (done by getsamepeptideinfo.py)
+2. Combining the identified intersection of MGF file and pFind3 and Maxquant, the identified peptide sequence was matched with the mass spectrogram in MGF file to facilitate the acquisition of the corresponding mz-intensity key value pair, which was used as the ground truth of the evaluation. (done by buildtargetmgf.py)
+3. The intersection results in the first step are processed and converted to the corresponding input format of each tool separately. (done by toxxxinput.py, pDeep2 and Guan's work do not need to be converted)
+4. PDeep2 and Guan's work run in the local GPU environment;Prosit and MS2PIP run on its corresponding Web server.
+5. After the prediction of each tool, the output format will be unified into the MSP file. (done by xxx2msp.py file, Prosit does not need conversion, and Guan's work output part shall be directly output to the MSP file by ourselves)
+6. The prediction results of each tool are compared with the ground truth data respectively, and the peptide sequence, peptide length, charge value, PCC, intensity value and other information are written into the file. (persim.py and perSimOnlymatch.py are used when 0 value is considered and 0 value is not considered)
+7. After analyzing the results of the comparison of the tools and ground truth data, the Median PCCs of B ions, Y ions, and BY ions were counted. (ComputeMEDpersim.py and ComputeMEDpersimOnlymatch.py are used when 0 value is considered and 0 value is not considere)
+8. For the proportion of PCC > 0.8 and the proportion of PCC > 0.9 parts statistics. (filterMEDpersim.py and filterMEDpersimOnlymatch.py are used when 0 value is considered and 0 value is not considered)
+9. Statistics are performed on the PCC for the predicted peak intensity of top6, 8, 11, and 15. (done by ComputeTopKpeaks.py)
 
-## 评估流程外代码：
-1. SpellMS2PIPresult.py ：由于MS2PIP的Web server一次最多预测10万条肽段，通过该文件将一个数据集的所有肽段结果整合到一个文件。
-2. DealDataforPlot.py ：针对绘图所需，通过该文件获取所需的B离子、Y离子、BY离子的各项信息。
+## Code outside the evaluation process
+1. Spellms2pipresult.py: since MS2PIP's Web server predicts up to 100,000 peptides at a time, this file is used to consolidate all peptide results from a dataset into a single file.
+2. Dealdataforplot.py: this file is used to obtain information about B, Y, and BY ions required for plotting.
